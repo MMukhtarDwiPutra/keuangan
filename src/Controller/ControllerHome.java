@@ -20,11 +20,11 @@ public class ControllerHome implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
         if(source.equals(view.getBtnPengeluaran())){
-            new ControllerPengeluaran();
+            new ControllerPengeluaranBulanan();
             view.setVisible(false);
         }else if(source.equals(view.getBtnRiwayat())){
-            new ControllerPengeluaran();
-            view.setVisible(false);
+//            new ControllerPengeluaran();
+//            view.setVisible(false);
         }
     }
 }
