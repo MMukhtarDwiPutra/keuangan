@@ -4,12 +4,13 @@ public class Makan {
     private String nama;
     private String waktu;
     private long harga;
+    private int idPengeluaran;
 
-    public String getNama() {
+    public String getNama(){
         return nama;
     }
 
-    public Makan(String nama, String waktu, long harga) {
+    public Makan(String nama, String waktu, long harga){
         this.nama = nama;
         this.waktu = waktu;
         this.harga = harga;

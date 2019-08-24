@@ -17,6 +17,11 @@ public class Database {
     
     private ArrayList<PengeluaranBulanan> pengeluaranBulanan = new ArrayList<>();
     private ArrayList<Pengeluaran> pengeluaran = new ArrayList<>();
+    private ArrayList<Makan> makan = new ArrayList<>();
+
+    public ArrayList<Makan> getMakan() {
+        return makan;
+    }
     
     String url = "jdbc:mysql://localhost/keuangan";
     String user = "root";
@@ -25,13 +30,27 @@ public class Database {
     public Database(){
     }
     
+    public void loadMakan(int idPengeluaran){
+        connect();
+        try {
+            String query = "SELECT * FROM makan WHERE id_pengeluaran = "+idPengeluaran;
+            rs = stmt.executeQuery(query);
+            while(rs.next()){
+                makan.add(new Makan(rs.getString("nama"),rs.getString("waktu"),rs.getLong("harga")));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        disconnect();
+    }
+    
     public void loadPengeluaran(){
         connect();
         try {
             String query = "SELECT * FROM pengeluaran";
             rs = stmt.executeQuery(query);
             while(rs.next()){
-                pengeluaran.add(new Pengeluaran(rs.getInt("id_pengeluaran"),rs.getString("tanggal"),rs.getLong("jumlah_pengeluaran"),rs.getInt("id_pengeluaran_bulanan")));
+                pengeluaran.add(new Pengeluaran(rs.getInt("id_pengeluaran"),rs.getString("tanggal"), rs.getString("hari"), rs.getLong("jumlah_pengeluaran"),rs.getInt("id_pengeluaran_bulanan")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
@@ -55,7 +74,7 @@ public class Database {
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    }   
 
     public ArrayList<Pengeluaran> getPengeluaran() {
         return pengeluaran;
