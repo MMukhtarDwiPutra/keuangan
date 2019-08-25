@@ -3,6 +3,7 @@ package View;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -28,6 +29,10 @@ public class ViewPengeluaran extends javax.swing.JFrame {
         btnTambahMakan.addActionListener(x);
         btnTambahPengeluaran.addActionListener(x);
         btnBack.addActionListener(x);
+    }
+
+    public JComboBox<String> getCbHari() {
+        return cbHari;
     }
     
     public int getTableSelectedRow(){
@@ -112,7 +117,7 @@ public class ViewPengeluaran extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel3.setText("Hari                    :");
 
-        cbHari.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Senin", "Selesa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu" }));
+        cbHari.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

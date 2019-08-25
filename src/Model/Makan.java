@@ -6,8 +6,23 @@ public class Makan {
     private long harga;
     private int idPengeluaran;
 
+    public int getIdPengeluaran() {
+        return idPengeluaran;
+    }
+
+    public void setIdPengeluaran(int idPengeluaran) {
+        this.idPengeluaran = idPengeluaran;
+    }
+
     public String getNama(){
         return nama;
+    }
+
+    public Makan(String nama, String waktu, long harga, int idPengeluaran) {
+        this.nama = nama;
+        this.waktu = waktu;
+        this.harga = harga;
+        this.idPengeluaran = idPengeluaran;
     }
 
     public Makan(String nama, String waktu, long harga){

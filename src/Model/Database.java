@@ -18,6 +18,7 @@ public class Database {
     private ArrayList<PengeluaranBulanan> pengeluaranBulanan = new ArrayList<>();
     private ArrayList<Pengeluaran> pengeluaran = new ArrayList<>();
     private ArrayList<Makan> makan = new ArrayList<>();
+    private ArrayList<Barang> barang = new ArrayList<>();
 
     public ArrayList<Makan> getMakan() {
         return makan;
@@ -42,6 +43,24 @@ public class Database {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         disconnect();
+    }
+    
+    public void loadBarang(int idPengeluaran){
+        connect();
+        try {
+            String query = "SELECT * FROM barang WHERE id_pengeluaran = "+idPengeluaran;
+            rs = stmt.executeQuery(query);
+            while(rs.next()){
+                barang.add(new Barang(rs.getString("nama"),rs.getString("keperluan"),rs.getLong("harga")));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        disconnect();
+    }
+
+    public ArrayList<Barang> getBarang() {
+        return barang;
     }
     
     public void loadPengeluaran(){
@@ -95,6 +114,61 @@ public class Database {
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
+        disconnect();
+    }
+    
+    public void tambahPengeluaran(Pengeluaran p){
+        connect();
+        String query = "INSERT INTO `pengeluaran`(`tanggal`, `hari`, `jumlah_pengeluaran`, `id_pengeluaran_bulanan`) VALUES ";
+        query += "('"+p.getTanggal()+"',";
+        query += "'"+p.getHari()+"',";
+        query += p.getJumlahPengeluaran()+",";
+        query += p.getIdPengeluaranBulanan()+")";
+        if(manipulate(query)){
+            loadPengeluaran();
+        }
+        disconnect();
+    }
+    
+    public void tambahMakan(Makan m){
+        connect();
+        String query = "INSERT INTO `makan` (`nama`,`waktu`,`harga`,`id_pengeluaran`) VALUES ";
+        query += "('"+m.getNama()+"',";
+        query += "'"+m.getWaktu()+"',";
+        query += m.getHarga()+",";
+        query += m.getIdPengeluaran()+")";
+        if(manipulate(query)){
+            loadMakan(m.getIdPengeluaran());
+        }
+        disconnect();
+    }
+    
+    public void tambahBarang(Barang b, int idPengeluaran){
+        connect();
+        String query = "INSERT INTO `barang` (`nama`, `keperluan`, `harga`, `id_pengeluaran`) VALUES (";
+        query += "'"+b.getNama()+"',";
+        query += "'"+b.getKeperluan()+"',";
+        query += b.getHarga()+",";
+        query += "'"+idPengeluaran+"')";
+        manipulate(query);
+        disconnect();
+    }
+    
+    public boolean manipulate(String query){
+        boolean cek = false;
+        try {
+            int row = stmt.executeUpdate(query);
+            if(row > 0) cek = true;
+        } catch (SQLException ex){
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        return cek;
+    }
+
+    public void updateTambahPengeluaran(int idPengeluaran, long harga) {
+        connect();
+        String query = "UPDATE pengeluaran SET jumlah_pengeluaran = jumlah_pengeluaran + "+harga+" WHERE id_pengeluaran = "+idPengeluaran;
+        manipulate(query);
         disconnect();
     }
 }

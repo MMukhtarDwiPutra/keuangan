@@ -11,6 +11,14 @@ public class Pengeluaran {
     private ArrayList<Barang> barang;
     private int idPengeluaranBulanan;
 
+    public Pengeluaran(String tanggal, String hari, int idPengeluaranBulanan){
+        this.hari = hari;
+//        this.idPengeluaran = idPengeluaran;
+        this.tanggal = tanggal;
+        this.jumlahPengeluaran = 0;
+        this.idPengeluaranBulanan = idPengeluaranBulanan;
+    }
+    
     public Pengeluaran(int idPengeluaran, String tanggal, String hari, long jumlahPengeluaran, int idPengeluaranBulanan){
         this.hari = hari;
         this.idPengeluaran = idPengeluaran;
@@ -39,7 +47,11 @@ public class Pengeluaran {
         return tanggal;
     }
 
-    public void setJumlahPengeluaran(long jumlahPengeluaran) {
+    public void setJumlahPengeluaran(long jumlahPengeluaran, long harga){
+        this.jumlahPengeluaran = this.jumlahPengeluaran + harga;
+    }
+    
+    public void setJumlahPengeluaran(long jumlahPengeluaran){
         this.jumlahPengeluaran = jumlahPengeluaran;
     }
 

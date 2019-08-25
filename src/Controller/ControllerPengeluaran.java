@@ -15,7 +15,8 @@ public class ControllerPengeluaran extends MouseAdapter implements ActionListene
     private ViewPengeluaran view;
     private ArrayList<Pengeluaran> pengeluaran = new ArrayList<>();
     private String bulanTahun;
-    private String hariTanggal;
+    private String hari;
+    private String tanggal;
     private int idPengeluaran;
     private int idPengeluaranBulanan;
     
@@ -31,6 +32,8 @@ public class ControllerPengeluaran extends MouseAdapter implements ActionListene
         view.setVisible(true);
     }
     
+    
+    
     public void loadTable(int idPengeluaranBulanan){
         pengeluaran = db.getPengeluaran();
         ArrayList<Pengeluaran> pengeluaranTemp = new ArrayList<>(); //Untuk sesuaikan dengan bulannya
@@ -45,18 +48,29 @@ public class ControllerPengeluaran extends MouseAdapter implements ActionListene
         }
         view.setTableModel(model);
     }
+    
+    public void tambahPengeluaran(Pengeluaran p){
+        db.tambahPengeluaran(p);
+        view.setVisible(false);
+        new ControllerPengeluaran(idPengeluaranBulanan, bulanTahun);
+        loadTable(idPengeluaranBulanan);
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
-        String tanggal = view.getTxtTanggal().getText();
+        String tambahTanggal = view.getTxtTanggal().getText();
+        String tambahHari = view.getCbHari().getSelectedItem().toString();
         if(source.equals(view.getBtnTambahMakan())){
+            String hariTanggal = hari+", "+tanggal;
             new ControllerMakan(idPengeluaran, bulanTahun, hariTanggal, idPengeluaranBulanan);
             view.setVisible(false);
         }else if(source.equals(view.getBtnTambahBarang())){
-            new ControllerBarang(tanggal);
+            String hariTanggal = hari+", "+tanggal;
+            new ControllerBarang(idPengeluaran,bulanTahun,hariTanggal,idPengeluaranBulanan);
+            view.setVisible(false);
         }else if(source.equals(view.getBtnTambahPengeluaran())){
-            
+            tambahPengeluaran(new Pengeluaran(tambahTanggal,tambahHari,idPengeluaranBulanan));
         }else if(source.equals(view.getBtnBack())){
             new ControllerPengeluaranBulanan();
             view.setVisible(false);
@@ -68,8 +82,8 @@ public class ControllerPengeluaran extends MouseAdapter implements ActionListene
         Object source = me.getSource();
         int i = view.getTableSelectedRow();
         if(source.equals(view.getTable())){
-            this.hariTanggal = view.getTable().getValueAt(i, 2).toString();
-            this.hariTanggal += ", "+view.getTable().getValueAt(i, 1).toString();
+            this.hari = view.getTable().getValueAt(i, 2).toString();
+            this.tanggal = view.getTable().getValueAt(i, 1).toString();
             this.idPengeluaran = Integer.parseInt(view.getTable().getValueAt(i, 0).toString());
         }
     }
