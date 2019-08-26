@@ -17,6 +17,8 @@ public class ControllerMakan extends MouseAdapter implements ActionListener{
     private int idPengeluaranBulanan;
     private String bulanTahun;
     private String tanggal;
+    private long kolomHarga;
+    private int kolomIdPengeluaranMakan;
     
     public ControllerMakan(int idPengeluaran, String bulanTahun, String tanggal, int idPengeluaranBulanan){
         this.bulanTahun = bulanTahun;
@@ -33,10 +35,10 @@ public class ControllerMakan extends MouseAdapter implements ActionListener{
     
     public void loadTable(){
         db.loadMakan(idPengeluaran);
-        DefaultTableModel model = new DefaultTableModel(new String[]{"Nama Makanan","Waktu","Harga"},0);
+        DefaultTableModel model = new DefaultTableModel(new String[]{"ID Pengeluaran Makan","Nama Makanan","Waktu","Harga"},0);
         ArrayList<Makan> makan = db.getMakan();
         for(Makan m : makan){
-            model.addRow(new Object[]{m.getNama(),m.getWaktu(),m.getHarga()});
+            model.addRow(new Object[]{m.getIdPengeluaranMakan(),m.getNama(),m.getWaktu(),m.getHarga()});
         }
         view.setModel(model);
     }
@@ -46,6 +48,13 @@ public class ControllerMakan extends MouseAdapter implements ActionListener{
         view.setVisible(false);
         new ControllerMakan(idPengeluaran,bulanTahun,tanggal,idPengeluaranBulanan);
         db.updateTambahPengeluaran(idPengeluaran,harga);
+    }
+    
+    public void hapusMakan(int idPengeluaranMakan, long harga){
+        db.hapusMakan(idPengeluaranMakan);
+        db.updateHapusPengeluaran(idPengeluaran, harga);
+        view.setVisible(false);
+        new ControllerMakan(idPengeluaran,bulanTahun,tanggal,idPengeluaranBulanan);
     }
 
     @Override
@@ -60,6 +69,8 @@ public class ControllerMakan extends MouseAdapter implements ActionListener{
         }else if(source.equals(view.getBtnTambah())){
             harga = Long.parseLong(view.getTxtHarga().getText().toString());
             tambahMakan(namaMakanan,waktuMakan,harga,idPengeluaran);
+        }else if(source.equals(view.getBtnHapus())){
+            hapusMakan(kolomIdPengeluaranMakan, kolomHarga);
         }
     }
     
@@ -68,7 +79,8 @@ public class ControllerMakan extends MouseAdapter implements ActionListener{
         Object source = m.getSource();
         if(source.equals(view.getTable())){
             int i = view.getTableSelectedRow();
-            
+            kolomIdPengeluaranMakan = Integer.parseInt(view.getTable().getValueAt(i, 0).toString());
+            kolomHarga = Long.parseLong(view.getTable().getValueAt(i, 3).toString());
         }
     }
 }

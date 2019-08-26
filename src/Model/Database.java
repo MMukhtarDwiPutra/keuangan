@@ -31,13 +31,27 @@ public class Database {
     public Database(){
     }
     
+    public void hapusMakan(int idPengeluaranMakan){
+        connect();
+        String query = "DELETE FROM makan WHERE id_pengeluaran_makan = "+idPengeluaranMakan;
+        manipulate(query);
+        disconnect();
+    }
+    
+    public void hapusBarang(int idPengeluaranBarang){
+        connect();
+        String query = "DELETE FROM barang WHERE id_pengeluaran_barang = "+idPengeluaranBarang;
+        manipulate(query);
+        disconnect();
+    }
+    
     public void loadMakan(int idPengeluaran){
         connect();
         try {
             String query = "SELECT * FROM makan WHERE id_pengeluaran = "+idPengeluaran;
             rs = stmt.executeQuery(query);
             while(rs.next()){
-                makan.add(new Makan(rs.getString("nama"),rs.getString("waktu"),rs.getLong("harga")));
+                makan.add(new Makan(rs.getInt("id_pengeluaran_makan"),rs.getString("nama"),rs.getString("waktu"),rs.getLong("harga")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
@@ -51,7 +65,7 @@ public class Database {
             String query = "SELECT * FROM barang WHERE id_pengeluaran = "+idPengeluaran;
             rs = stmt.executeQuery(query);
             while(rs.next()){
-                barang.add(new Barang(rs.getString("nama"),rs.getString("keperluan"),rs.getLong("harga")));
+                barang.add(new Barang(rs.getInt("id_pengeluaran_barang"),rs.getString("nama"),rs.getString("keperluan"),rs.getLong("harga")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
@@ -168,6 +182,13 @@ public class Database {
     public void updateTambahPengeluaran(int idPengeluaran, long harga) {
         connect();
         String query = "UPDATE pengeluaran SET jumlah_pengeluaran = jumlah_pengeluaran + "+harga+" WHERE id_pengeluaran = "+idPengeluaran;
+        manipulate(query);
+        disconnect();
+    }
+    
+    public void updateHapusPengeluaran(int idPengeluaran, long harga){
+        connect();
+        String query = "UPDATE pengeluaran SET jumlah_pengeluaran = jumlah_pengeluaran - "+harga+" WHERE id_pengeluaran = "+idPengeluaran;
         manipulate(query);
         disconnect();
     }

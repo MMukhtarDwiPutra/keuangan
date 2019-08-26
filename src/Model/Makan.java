@@ -1,6 +1,7 @@
 package Model;
 
 public class Makan {
+    private int idPengeluaranMakan;
     private String nama;
     private String waktu;
     private long harga;
@@ -18,7 +19,23 @@ public class Makan {
         return nama;
     }
 
-    public Makan(String nama, String waktu, long harga, int idPengeluaran) {
+    public Makan(int idPengeluaranMakan, String nama, String waktu, long harga){
+        this.idPengeluaranMakan = idPengeluaranMakan;
+        this.nama = nama;
+        this.waktu = waktu;
+        this.harga = harga;
+        this.idPengeluaran = idPengeluaran;
+    }
+
+    public int getIdPengeluaranMakan() {
+        return idPengeluaranMakan;
+    }
+
+    public void setIdPengeluaranMakan(int idPengeluaranMakan) {
+        this.idPengeluaranMakan = idPengeluaranMakan;
+    }
+    
+    public Makan(String nama, String waktu, long harga, int idPengeluaran){
         this.nama = nama;
         this.waktu = waktu;
         this.harga = harga;

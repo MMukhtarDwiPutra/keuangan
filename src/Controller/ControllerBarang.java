@@ -26,6 +26,8 @@ public class ControllerBarang extends MouseAdapter implements ActionListener {
     private String bulanTahun;
     private String hariTanggal;
     private int idPengeluaranBulanan;
+    private int kolomIdPengeluaranBarang;
+    private long kolomHarga;
     
     public ControllerBarang(int idPengeluaran, String bulanTahun, String hariTanggal, int idPengeluaranBulanan){
         this.idPengeluaran = idPengeluaran;
@@ -43,9 +45,9 @@ public class ControllerBarang extends MouseAdapter implements ActionListener {
     public void loadTable(){
         db.loadBarang(idPengeluaran);
         ArrayList<Barang> barang = db.getBarang();
-        DefaultTableModel model = new DefaultTableModel(new String[]{"Nama Barang","Keperluan","Harga"},0);
+        DefaultTableModel model = new DefaultTableModel(new String[]{"ID Pengeluaran Barang","Nama Barang","Keperluan","Harga"},0);
         for(Barang b : barang){
-            model.addRow(new Object[]{b.getNama(),b.getKeperluan(),b.getHarga()});
+            model.addRow(new Object[]{b.getIdPengeluaranBarang(),b.getNama(),b.getKeperluan(),b.getHarga()});
         }
         view.setTableModel(model);
     }
@@ -55,6 +57,13 @@ public class ControllerBarang extends MouseAdapter implements ActionListener {
         view.setVisible(false);
         new ControllerBarang(idPengeluaran,bulanTahun,hariTanggal,idPengeluaranBulanan);
         db.updateTambahPengeluaran(idPengeluaran, b.getHarga());
+    }
+    
+    public void hapusBarang(int idPengeluaranBarang, long harga){
+        db.hapusBarang(idPengeluaranBarang);
+        db.updateHapusPengeluaran(idPengeluaran, harga);
+        view.setVisible(false);
+        new ControllerBarang(idPengeluaran,bulanTahun,hariTanggal,idPengeluaranBulanan);
     }
 
     @Override
@@ -69,11 +78,18 @@ public class ControllerBarang extends MouseAdapter implements ActionListener {
         }else if(source.equals(view.getBtnTambah())){
             harga = Long.parseLong(view.getTxtHarga().getText());
             tambahBarang(new Barang(nama,keperluan,harga));
+        }else if(source.equals(view.getBtnHapus())){
+            hapusBarang(kolomIdPengeluaranBarang, kolomHarga);
         }
     }
     
     @Override
     public void mousePressed(MouseEvent m){
-        
+        Object source = m.getSource();
+        if(source.equals(view.getTable())){
+            int row = view.getTable().getSelectedRow();
+            kolomIdPengeluaranBarang = Integer.parseInt(view.getTable().getValueAt(row, 0).toString());
+            kolomHarga = Long.parseLong(view.getTable().getValueAt(row, 3).toString());
+        }
     }
 }

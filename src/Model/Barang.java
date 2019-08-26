@@ -1,6 +1,7 @@
 package Model;
 
 public class Barang {
+    private int idPengeluaranBarang;
     private String nama;
     private String keperluan;
     private long harga;
@@ -9,6 +10,17 @@ public class Barang {
         this.nama = nama;
         this.keperluan = keperluan;
         this.harga = harga;
+    }
+    
+    public Barang(int idPengeluaranBarang, String nama, String keperluan, long harga) {
+        this.idPengeluaranBarang = idPengeluaranBarang;
+        this.nama = nama;
+        this.keperluan = keperluan;
+        this.harga = harga;
+    }
+
+    public int getIdPengeluaranBarang() {
+        return idPengeluaranBarang;
     }
 
     public String getNama() {
