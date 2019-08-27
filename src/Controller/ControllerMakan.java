@@ -56,6 +56,13 @@ public class ControllerMakan extends MouseAdapter implements ActionListener{
         view.setVisible(false);
         new ControllerMakan(idPengeluaran,bulanTahun,tanggal,idPengeluaranBulanan);
     }
+    
+    public void editMakan(int idPengeluaranMakan, String namaMakanan, String waktuMakan, long hargaBaru, long hargaLama){
+        db.editMakan(idPengeluaranMakan, namaMakanan, waktuMakan, hargaBaru);
+        db.updateEditPengeluaran(idPengeluaran, hargaBaru, hargaLama);
+        view.setVisible(false);
+        new ControllerMakan(idPengeluaran,bulanTahun,tanggal,idPengeluaranBulanan);
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -71,6 +78,9 @@ public class ControllerMakan extends MouseAdapter implements ActionListener{
             tambahMakan(namaMakanan,waktuMakan,harga,idPengeluaran);
         }else if(source.equals(view.getBtnHapus())){
             hapusMakan(kolomIdPengeluaranMakan, kolomHarga);
+        }else if(source.equals(view.getBtnEdit())){
+            long hargaBaru = Long.parseLong(view.getTxtHarga().getText().toString());
+            editMakan(kolomIdPengeluaranMakan,namaMakanan,waktuMakan,hargaBaru,kolomHarga);
         }
     }
     
@@ -79,6 +89,15 @@ public class ControllerMakan extends MouseAdapter implements ActionListener{
         Object source = m.getSource();
         if(source.equals(view.getTable())){
             int i = view.getTableSelectedRow();
+            view.getTxtHarga().setText(view.getTable().getValueAt(i, 3).toString());
+            view.getTxtNamaMakanan().setText(view.getTable().getValueAt(i, 1).toString());
+            if((view.getTable().getValueAt(i, 2).toString()).equals("Pagi")){
+                view.getCbWaktuMakan().setSelectedIndex(0);
+            }else if((view.getTable().getValueAt(i, 2).toString()).equals("Malam")){
+                view.getCbWaktuMakan().setSelectedIndex(2);
+            }else if((view.getTable().getValueAt(i, 2).toString()).equals("Siang")){
+                view.getCbWaktuMakan().setSelectedIndex(1);
+            }
             kolomIdPengeluaranMakan = Integer.parseInt(view.getTable().getValueAt(i, 0).toString());
             kolomHarga = Long.parseLong(view.getTable().getValueAt(i, 3).toString());
         }

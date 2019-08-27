@@ -53,7 +53,12 @@ public class ControllerPengeluaran extends MouseAdapter implements ActionListene
         db.tambahPengeluaran(p);
         view.setVisible(false);
         new ControllerPengeluaran(idPengeluaranBulanan, bulanTahun);
-        loadTable(idPengeluaranBulanan);
+    }
+    
+    public void hapusPengeluaran(int idPengeluaran){
+        db.hapusPengeluaran(idPengeluaran);
+        view.setVisible(false);
+        new ControllerPengeluaran(idPengeluaranBulanan, bulanTahun);
     }
 
     @Override
@@ -74,6 +79,8 @@ public class ControllerPengeluaran extends MouseAdapter implements ActionListene
         }else if(source.equals(view.getBtnBack())){
             new ControllerPengeluaranBulanan();
             view.setVisible(false);
+        }else if(source.equals(view.getBtnHapus())){
+            hapusPengeluaran(idPengeluaran);
         }
     }
     

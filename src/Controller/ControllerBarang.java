@@ -65,6 +65,13 @@ public class ControllerBarang extends MouseAdapter implements ActionListener {
         view.setVisible(false);
         new ControllerBarang(idPengeluaran,bulanTahun,hariTanggal,idPengeluaranBulanan);
     }
+    
+    public void editBarang(int idPengeluaranBarang, String namaBarang, String keperluan, long hargaBaru, long hargaLama){
+        db.editBarang(idPengeluaranBarang, namaBarang, keperluan, hargaBaru);
+        db.updateEditPengeluaran(idPengeluaran, hargaBaru, hargaLama);
+        view.setVisible(false);
+        new ControllerBarang(idPengeluaran,bulanTahun,hariTanggal,idPengeluaranBulanan);
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -80,6 +87,9 @@ public class ControllerBarang extends MouseAdapter implements ActionListener {
             tambahBarang(new Barang(nama,keperluan,harga));
         }else if(source.equals(view.getBtnHapus())){
             hapusBarang(kolomIdPengeluaranBarang, kolomHarga);
+        }else if(source.equals(view.getBtnEdit())){
+            long hargaBaru = Long.parseLong(view.getTxtHarga().getText());
+            editBarang(kolomIdPengeluaranBarang, nama, keperluan, hargaBaru, kolomHarga);
         }
     }
     
@@ -90,6 +100,9 @@ public class ControllerBarang extends MouseAdapter implements ActionListener {
             int row = view.getTable().getSelectedRow();
             kolomIdPengeluaranBarang = Integer.parseInt(view.getTable().getValueAt(row, 0).toString());
             kolomHarga = Long.parseLong(view.getTable().getValueAt(row, 3).toString());
+            view.getTxtNamaBarang().setText(view.getTable().getValueAt(row, 1).toString());
+            view.getTxtKeperluan().setText(view.getTable().getValueAt(row, 2).toString());
+            view.getTxtHarga().setText(view.getTable().getValueAt(row, 3).toString());
         }
     }
 }

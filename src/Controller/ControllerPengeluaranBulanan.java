@@ -13,8 +13,8 @@ import javax.swing.table.DefaultTableModel;
 public class ControllerPengeluaranBulanan extends MouseAdapter implements ActionListener{
     private Database db;
     private ViewPengeluaranBulanan view;
-    private String bulanTahun;
-    private int idPengeluaranBulanan;
+    private String kolomBulanTahun;
+    private int kolomIdPengeluaranBulanan;
     
     public ControllerPengeluaranBulanan(){
         db = new Database();
@@ -34,19 +34,37 @@ public class ControllerPengeluaranBulanan extends MouseAdapter implements Action
         }
         view.setTableModel(model);
     }
+    
+    public void hapusPengeluaranBulanan(){
+        int yon = view.btnHapusYesOrNo(kolomIdPengeluaranBulanan);
+        if(yon == 0){
+            db.hapusPengeluaranBulanan(kolomIdPengeluaranBulanan);
+            view.setVisible(false);
+            new ControllerPengeluaranBulanan();
+        }
+    }
+    
+    public void tambahPengeluaranBulanan(String bulanTahun){
+        db.tambahPengeluaranBulanan(bulanTahun);
+        view.setVisible(false);
+        new ControllerPengeluaranBulanan();
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
-        
         if(source.equals(view.getBtnTambahPengeluaran())){
-            
+            String bulanTahun = view.getCbBulan().getSelectedItem().toString();
+            bulanTahun += " "+view.getCbTahun().getSelectedItem().toString();
+            tambahPengeluaranBulanan(bulanTahun);
         }else if(source.equals(view.getBtnLihatPengeluaran())){
-            new ControllerPengeluaran(idPengeluaranBulanan, bulanTahun);
+            new ControllerPengeluaran(kolomIdPengeluaranBulanan, kolomBulanTahun);
             view.setVisible(false);
         }else if(source.equals(view.getBtnHome())){
             new ControllerHome();
             view.setVisible(false);
+        }else if(source.equals(view.getBtnHapus())){
+            hapusPengeluaranBulanan();
         }
     }
     
@@ -55,8 +73,8 @@ public class ControllerPengeluaranBulanan extends MouseAdapter implements Action
         Object source = e.getSource();
         if(source.equals(view.getTable())){
             int i = view.getTableSelectedRow();
-            this.bulanTahun = view.getTable().getModel().getValueAt(i, 1).toString();
-            this.idPengeluaranBulanan = Integer.parseInt(view.getTable().getModel().getValueAt(i, 0).toString());
+            this.kolomBulanTahun = view.getTable().getModel().getValueAt(i, 1).toString();
+            this.kolomIdPengeluaranBulanan = Integer.parseInt(view.getTable().getModel().getValueAt(i, 0).toString());
         }
     }
 }

@@ -31,6 +31,19 @@ public class Database {
     public Database(){
     }
     
+    public void tambahMakan(Makan m){
+        connect();
+        String query = "INSERT INTO `makan` (`nama`,`waktu`,`harga`,`id_pengeluaran`) VALUES ";
+        query += "('"+m.getNama()+"',";
+        query += "'"+m.getWaktu()+"',";
+        query += m.getHarga()+",";
+        query += m.getIdPengeluaran()+")";
+        if(manipulate(query)){
+            loadMakan(m.getIdPengeluaran());
+        }
+        disconnect();
+    }
+    
     public void hapusMakan(int idPengeluaranMakan){
         connect();
         String query = "DELETE FROM makan WHERE id_pengeluaran_makan = "+idPengeluaranMakan;
@@ -38,9 +51,68 @@ public class Database {
         disconnect();
     }
     
+    public void editMakan(int idPengeluaranMakan, String namaMakan, String waktuMakan, long harga){
+        connect();
+        String query = "UPDATE `makan` SET nama = '"+namaMakan+"', waktu = '"+waktuMakan+"', harga = "+harga+" WHERE id_pengeluaran_makan = "+idPengeluaranMakan;
+        manipulate(query);
+        disconnect();
+    }
+    
+    public void tambahBarang(Barang b, int idPengeluaran){
+        connect();
+        String query = "INSERT INTO `barang` (`nama`, `keperluan`, `harga`, `id_pengeluaran`) VALUES (";
+        query += "'"+b.getNama()+"',";
+        query += "'"+b.getKeperluan()+"',";
+        query += b.getHarga()+",";
+        query += "'"+idPengeluaran+"')";
+        manipulate(query);
+        disconnect();
+    }
+    
     public void hapusBarang(int idPengeluaranBarang){
         connect();
         String query = "DELETE FROM barang WHERE id_pengeluaran_barang = "+idPengeluaranBarang;
+        manipulate(query);
+        disconnect();
+    }
+    
+    public void editBarang(int idPengeluaranBarang, String namaBarang, String keperluan, long hargaBaru){
+        connect();
+        String query = "UPDATE `barang` SET nama = '"+namaBarang+"', keperluan = '"+keperluan+"', harga = "+hargaBaru+" WHERE id_pengeluaran_barang = "+idPengeluaranBarang;
+        manipulate(query);
+        disconnect();
+    }
+    
+    public void tambahPengeluaran(Pengeluaran p){
+        connect();
+        String query = "INSERT INTO `pengeluaran`(`tanggal`, `hari`, `jumlah_pengeluaran`, `id_pengeluaran_bulanan`) VALUES ";
+        query += "('"+p.getTanggal()+"',";
+        query += "'"+p.getHari()+"',";
+        query += p.getJumlahPengeluaran()+",";
+        query += p.getIdPengeluaranBulanan()+")";
+        if(manipulate(query)){
+            loadPengeluaran();
+        }
+        disconnect();
+    }
+    
+    public void hapusPengeluaran(int idPengeluaran){
+        connect();
+        String query = "DELETE FROM pengeluaran WHERE id_pengeluaran = "+idPengeluaran;
+        manipulate(query);
+        disconnect();
+    }
+    
+    public void tambahPengeluaranBulanan(String bulanTahun){
+        connect();
+        String query = "INSERT INTO pengeluaranbulanan (`bulan_tahun`) VALUES ('"+bulanTahun+"')";
+        manipulate(query);
+        disconnect();
+    }
+    
+    public void hapusPengeluaranBulanan(int idPengeluaranBulanan){
+        connect();
+        String query = "DELETE FROM pengeluaranbulanan WHERE id_pengeluaran_bulanan = "+idPengeluaranBulanan;
         manipulate(query);
         disconnect();
     }
@@ -72,10 +144,6 @@ public class Database {
         }
         disconnect();
     }
-
-    public ArrayList<Barang> getBarang() {
-        return barang;
-    }
     
     public void loadPengeluaran(){
         connect();
@@ -88,6 +156,55 @@ public class Database {
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
+        disconnect();
+    }
+    
+    public void loadPengeluaranBulanan(){
+        connect();
+        try {
+            String query = "SELECT * FROM pengeluaranbulanan";
+            rs = stmt.executeQuery(query);
+            while(rs.next()){
+                pengeluaranBulanan.add(new PengeluaranBulanan(rs.getInt("id_pengeluaran_bulanan"),rs.getString("bulan_tahun")));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        disconnect();
+    }
+    
+    public ArrayList<Pengeluaran> getPengeluaran() {
+        return pengeluaran;
+    }
+    
+    public ArrayList<PengeluaranBulanan> getPengeluaranBulanan(){
+        return pengeluaranBulanan;
+    }
+    
+    public ArrayList<Barang> getBarang() {
+        return barang;
+    }
+    
+    public void updateTambahPengeluaran(int idPengeluaran, long harga) {
+        connect();
+        String query = "UPDATE pengeluaran SET jumlah_pengeluaran = jumlah_pengeluaran + "+harga+" WHERE id_pengeluaran = "+idPengeluaran;
+        manipulate(query);
+        disconnect();
+    }
+    
+    public void updateHapusPengeluaran(int idPengeluaran, long harga){
+        connect();
+        String query = "UPDATE pengeluaran SET jumlah_pengeluaran = jumlah_pengeluaran - "+harga+" WHERE id_pengeluaran = "+idPengeluaran;
+        manipulate(query);
+        disconnect();
+    }
+    
+    public void updateEditPengeluaran(int idPengeluaran, long hargaBaru, long hargaLama){
+        connect();
+        String query = "UPDATE pengeluaran SET jumlah_pengeluaran = jumlah_pengeluaran - "+hargaLama+" WHERE id_pengeluaran = "+idPengeluaran;        
+        manipulate(query);
+        query = "UPDATE pengeluaran SET jumlah_pengeluaran = jumlah_pengeluaran + "+hargaBaru+" WHERE id_pengeluaran = "+idPengeluaran;
+        manipulate(query);
         disconnect();
     }
     
@@ -107,65 +224,6 @@ public class Database {
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }   
-
-    public ArrayList<Pengeluaran> getPengeluaran() {
-        return pengeluaran;
-    }
-    
-    public ArrayList<PengeluaranBulanan> getPengeluaranBulanan(){
-        return pengeluaranBulanan;
-    }
-    
-    public void loadPengeluaranBulanan(){
-        connect();
-        try {
-            String query = "SELECT * FROM pengeluaranbulanan";
-            rs = stmt.executeQuery(query);
-            while(rs.next()){
-                pengeluaranBulanan.add(new PengeluaranBulanan(rs.getInt("id_pengeluaran_bulanan"),rs.getString("bulan_tahun")));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        disconnect();
-    }
-    
-    public void tambahPengeluaran(Pengeluaran p){
-        connect();
-        String query = "INSERT INTO `pengeluaran`(`tanggal`, `hari`, `jumlah_pengeluaran`, `id_pengeluaran_bulanan`) VALUES ";
-        query += "('"+p.getTanggal()+"',";
-        query += "'"+p.getHari()+"',";
-        query += p.getJumlahPengeluaran()+",";
-        query += p.getIdPengeluaranBulanan()+")";
-        if(manipulate(query)){
-            loadPengeluaran();
-        }
-        disconnect();
-    }
-    
-    public void tambahMakan(Makan m){
-        connect();
-        String query = "INSERT INTO `makan` (`nama`,`waktu`,`harga`,`id_pengeluaran`) VALUES ";
-        query += "('"+m.getNama()+"',";
-        query += "'"+m.getWaktu()+"',";
-        query += m.getHarga()+",";
-        query += m.getIdPengeluaran()+")";
-        if(manipulate(query)){
-            loadMakan(m.getIdPengeluaran());
-        }
-        disconnect();
-    }
-    
-    public void tambahBarang(Barang b, int idPengeluaran){
-        connect();
-        String query = "INSERT INTO `barang` (`nama`, `keperluan`, `harga`, `id_pengeluaran`) VALUES (";
-        query += "'"+b.getNama()+"',";
-        query += "'"+b.getKeperluan()+"',";
-        query += b.getHarga()+",";
-        query += "'"+idPengeluaran+"')";
-        manipulate(query);
-        disconnect();
     }
     
     public boolean manipulate(String query){
@@ -177,19 +235,5 @@ public class Database {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         } 
         return cek;
-    }
-
-    public void updateTambahPengeluaran(int idPengeluaran, long harga) {
-        connect();
-        String query = "UPDATE pengeluaran SET jumlah_pengeluaran = jumlah_pengeluaran + "+harga+" WHERE id_pengeluaran = "+idPengeluaran;
-        manipulate(query);
-        disconnect();
-    }
-    
-    public void updateHapusPengeluaran(int idPengeluaran, long harga){
-        connect();
-        String query = "UPDATE pengeluaran SET jumlah_pengeluaran = jumlah_pengeluaran - "+harga+" WHERE id_pengeluaran = "+idPengeluaran;
-        manipulate(query);
-        disconnect();
     }
 }

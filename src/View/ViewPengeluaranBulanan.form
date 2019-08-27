@@ -47,6 +47,7 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="btnTambahPengeluaran" pref="161" max="32767" attributes="0"/>
                           <Component id="btnLihatPengeluaran" max="32767" attributes="0"/>
+                          <Component id="btnHapus" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -79,9 +80,13 @@
                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="btnLihatPengeluaran" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="194" max="-2" attributes="0"/>
+                      <Component id="btnHapus" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <Component id="jScrollPane1" min="-2" pref="240" max="-2" attributes="0"/>
-                  <Component id="btnLihatPengeluaran" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -187,6 +192,11 @@
           <Font name="Times New Roman" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Home"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnHapus">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Hapus Data"/>
       </Properties>
     </Component>
   </SubComponents>
