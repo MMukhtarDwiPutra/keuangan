@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Database;
 import Model.Pengeluaran;
+import Model.PengeluaranBulanan;
 import View.ViewPengeluaran;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -56,9 +57,21 @@ public class ControllerPengeluaran extends MouseAdapter implements ActionListene
     }
     
     public void hapusPengeluaran(int idPengeluaran){
-        db.hapusPengeluaran(idPengeluaran);
-        view.setVisible(false);
-        new ControllerPengeluaran(idPengeluaranBulanan, bulanTahun);
+        int yon = view.btnHapusYesOrNo(idPengeluaran);
+        if(yon == 0){
+            Pengeluaran temp = null;
+            ArrayList<Pengeluaran> pengeluaran = db.getPengeluaran();
+            for(Pengeluaran p : pengeluaran){
+                if(idPengeluaran == p.getIdPengeluaran()){
+                    temp = p;
+                    break;
+                }
+            }
+            db.updateHapusPengeluaran(idPengeluaranBulanan,temp.getJumlahPengeluaran());
+            db.hapusPengeluaran(idPengeluaran);
+            view.setVisible(false);
+            new ControllerPengeluaran(idPengeluaranBulanan, bulanTahun);
+        }
     }
 
     @Override
@@ -66,11 +79,11 @@ public class ControllerPengeluaran extends MouseAdapter implements ActionListene
         Object source = e.getSource();
         String tambahTanggal = view.getTxtTanggal().getText();
         String tambahHari = view.getCbHari().getSelectedItem().toString();
-        if(source.equals(view.getBtnTambahMakan())){
+        if(source.equals(view.getBtnMakan())){
             String hariTanggal = hari+", "+tanggal;
             new ControllerMakan(idPengeluaran, bulanTahun, hariTanggal, idPengeluaranBulanan);
             view.setVisible(false);
-        }else if(source.equals(view.getBtnTambahBarang())){
+        }else if(source.equals(view.getBtnBarang())){
             String hariTanggal = hari+", "+tanggal;
             new ControllerBarang(idPengeluaran,bulanTahun,hariTanggal,idPengeluaranBulanan);
             view.setVisible(false);

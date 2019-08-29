@@ -56,21 +56,27 @@ public class ControllerBarang extends MouseAdapter implements ActionListener {
         db.tambahBarang(b, idPengeluaran);
         view.setVisible(false);
         new ControllerBarang(idPengeluaran,bulanTahun,hariTanggal,idPengeluaranBulanan);
-        db.updateTambahPengeluaran(idPengeluaran, b.getHarga());
+        db.updateTambahPengeluaran(idPengeluaranBulanan, idPengeluaran, b.getHarga());
     }
     
     public void hapusBarang(int idPengeluaranBarang, long harga){
-        db.hapusBarang(idPengeluaranBarang);
-        db.updateHapusPengeluaran(idPengeluaran, harga);
-        view.setVisible(false);
-        new ControllerBarang(idPengeluaran,bulanTahun,hariTanggal,idPengeluaranBulanan);
+        int yon = view.btnHapusYesOrNo(idPengeluaranBarang);
+        if(yon == 0){
+            db.hapusBarang(idPengeluaranBarang);
+            db.updateHapusPengeluaran(idPengeluaranBulanan,idPengeluaran, harga);
+            view.setVisible(false);
+            new ControllerBarang(idPengeluaran,bulanTahun,hariTanggal,idPengeluaranBulanan);
+        }
     }
     
     public void editBarang(int idPengeluaranBarang, String namaBarang, String keperluan, long hargaBaru, long hargaLama){
-        db.editBarang(idPengeluaranBarang, namaBarang, keperluan, hargaBaru);
-        db.updateEditPengeluaran(idPengeluaran, hargaBaru, hargaLama);
-        view.setVisible(false);
-        new ControllerBarang(idPengeluaran,bulanTahun,hariTanggal,idPengeluaranBulanan);
+        int yon = view.btnEditYesOrNo(idPengeluaranBarang);
+        if(yon == 0){
+            db.editBarang(idPengeluaranBarang, namaBarang, keperluan, hargaBaru);
+            db.updateEditPengeluaran(idPengeluaranBulanan, idPengeluaran, hargaBaru, hargaLama);
+            view.setVisible(false);
+            new ControllerBarang(idPengeluaran,bulanTahun,hariTanggal,idPengeluaranBulanan);
+        }
     }
 
     @Override

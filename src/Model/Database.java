@@ -16,6 +16,7 @@ public class Database {
     
     
     private ArrayList<PengeluaranBulanan> pengeluaranBulanan = new ArrayList<>();
+    private ArrayList<PengeluaranBulanan> riwayatPengeluaran = new ArrayList<>();
     private ArrayList<Pengeluaran> pengeluaran = new ArrayList<>();
     private ArrayList<Makan> makan = new ArrayList<>();
     private ArrayList<Barang> barang = new ArrayList<>();
@@ -105,7 +106,7 @@ public class Database {
     
     public void tambahPengeluaranBulanan(String bulanTahun){
         connect();
-        String query = "INSERT INTO pengeluaranbulanan (`bulan_tahun`) VALUES ('"+bulanTahun+"')";
+        String query = "INSERT INTO pengeluaranbulanan (`bulan_tahun`,`jumlah_pengeluaran_bulanan`) VALUES ('"+bulanTahun+"',0)";
         manipulate(query);
         disconnect();
     }
@@ -172,6 +173,24 @@ public class Database {
         }
         disconnect();
     }
+
+    public ArrayList<PengeluaranBulanan> getRiwayatPengeluaran() {
+        return riwayatPengeluaran;
+    }
+    
+    public void loadRiwayatPengeluaran(){
+        connect();
+        try {
+            String query = "SELECT * FROM pengeluaranbulanan";
+            rs = stmt.executeQuery(query);
+            while(rs.next()){
+                riwayatPengeluaran.add(new PengeluaranBulanan(rs.getInt("id_pengeluaran_bulanan"),rs.getString("bulan_tahun"),rs.getLong("jumlah_pengeluaran_bulanan")));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        disconnect();
+    }
     
     public ArrayList<Pengeluaran> getPengeluaran() {
         return pengeluaran;
@@ -185,25 +204,41 @@ public class Database {
         return barang;
     }
     
-    public void updateTambahPengeluaran(int idPengeluaran, long harga) {
+    public void updateTambahPengeluaran(int idPengeluaranBulanan, int idPengeluaran, long harga) {
         connect();
         String query = "UPDATE pengeluaran SET jumlah_pengeluaran = jumlah_pengeluaran + "+harga+" WHERE id_pengeluaran = "+idPengeluaran;
         manipulate(query);
-        disconnect();
-    }
-    
-    public void updateHapusPengeluaran(int idPengeluaran, long harga){
-        connect();
-        String query = "UPDATE pengeluaran SET jumlah_pengeluaran = jumlah_pengeluaran - "+harga+" WHERE id_pengeluaran = "+idPengeluaran;
+        query = "UPDATE pengeluaranbulanan SET jumlah_pengeluaran_bulanan = jumlah_pengeluaran_bulanan + "+harga+" WHERE id_pengeluaran_bulanan = "+idPengeluaranBulanan;
         manipulate(query);
         disconnect();
     }
     
-    public void updateEditPengeluaran(int idPengeluaran, long hargaBaru, long hargaLama){
+    public void updateHapusPengeluaran(int idPengeluaranBulanan, int idPengeluaran, long harga){
+        connect();
+        String query = "UPDATE pengeluaran SET jumlah_pengeluaran = jumlah_pengeluaran - "+harga+" WHERE id_pengeluaran = "+idPengeluaran;
+        manipulate(query);
+        query = "UPDATE pengeluaranbulanan SET jumlah_pengeluaran_bulanan = jumlah_pengeluaran_bulanan - "+harga+" WHERE id_pengeluaran_bulanan = "+idPengeluaranBulanan;
+        manipulate(query);
+        disconnect();
+    }
+    
+    public void updateHapusPengeluaran(int idPengeluaranBulanan, long pengeluaran){
+        connect();
+        String query = "UPDATE pengeluaranbulanan set jumlah_pengeluaran_bulanan = jumlah_pengeluaran_bulanan - "+pengeluaran+" WHERE id_pengeluaran_bulanan = "+idPengeluaranBulanan;
+        manipulate(query);
+        disconnect();
+    }
+    
+    public void updateEditPengeluaran(int idPengeluaranBulanan, int idPengeluaran, long hargaBaru, long hargaLama){
         connect();
         String query = "UPDATE pengeluaran SET jumlah_pengeluaran = jumlah_pengeluaran - "+hargaLama+" WHERE id_pengeluaran = "+idPengeluaran;        
         manipulate(query);
         query = "UPDATE pengeluaran SET jumlah_pengeluaran = jumlah_pengeluaran + "+hargaBaru+" WHERE id_pengeluaran = "+idPengeluaran;
+        manipulate(query);
+        
+        query = "UPDATE pengeluaranbulanan SET jumlah_pengeluaran_bulanan = jumlah_pengeluaran_bulanan - "+hargaLama+" WHERE id_pengeluaran_bulanan = "+idPengeluaranBulanan;        
+        manipulate(query);
+        query = "UPDATE pengeluaranbulanan SET jumlah_pengeluaran_bulanan = jumlah_pengeluaran_bulanan + "+hargaBaru+" WHERE id_pengeluaran_bulanan = "+idPengeluaranBulanan;
         manipulate(query);
         disconnect();
     }

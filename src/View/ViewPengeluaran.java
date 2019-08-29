@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -14,6 +15,11 @@ public class ViewPengeluaran extends javax.swing.JFrame {
         initComponents();
         txtBulanTahun.setText(bulanTahun);
         txtBulanTahun.setEditable(false);
+    }
+    
+    public int btnHapusYesOrNo(int idPengeluaran){
+        int yon = JOptionPane.showConfirmDialog(null,"Apakah anda yakin ingin menghapus data pengeluaran dengan ID "+idPengeluaran+" ?","Hapus Data Pengeluaran",JOptionPane.YES_NO_OPTION);
+        return yon;
     }
 
     public JButton getBtnHapus() {
@@ -29,8 +35,8 @@ public class ViewPengeluaran extends javax.swing.JFrame {
     }
 
     public void addActionListener(ActionListener x){
-        btnTambahBarang.addActionListener(x);
-        btnTambahMakan.addActionListener(x);
+        btnBarang.addActionListener(x);
+        btnMakan.addActionListener(x);
         btnTambahPengeluaran.addActionListener(x);
         btnBack.addActionListener(x);
         btnHapus.addActionListener(x);
@@ -52,12 +58,12 @@ public class ViewPengeluaran extends javax.swing.JFrame {
         return table;
     }
 
-    public JButton getBtnTambahBarang() {
-        return btnTambahBarang;
+    public JButton getBtnBarang() {
+        return btnBarang;
     }
 
-    public JButton getBtnTambahMakan() {
-        return btnTambahMakan;
+    public JButton getBtnMakan() {
+        return btnMakan;
     }
 
     public JButton getBtnTambahPengeluaran() {
@@ -79,8 +85,8 @@ public class ViewPengeluaran extends javax.swing.JFrame {
         btnTambahPengeluaran = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
-        btnTambahMakan = new javax.swing.JButton();
-        btnTambahBarang = new javax.swing.JButton();
+        btnMakan = new javax.swing.JButton();
+        btnBarang = new javax.swing.JButton();
         txtBulanTahun = new javax.swing.JTextField();
         btnBack = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -114,9 +120,9 @@ public class ViewPengeluaran extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(table);
 
-        btnTambahMakan.setText("Tambah Makan");
+        btnMakan.setText("Makan");
 
-        btnTambahBarang.setText("Tambah Barang");
+        btnBarang.setText("Barang");
 
         btnBack.setText("Back");
 
@@ -147,8 +153,8 @@ public class ViewPengeluaran extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(btnTambahPengeluaran, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnTambahMakan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnTambahBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnMakan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnHapus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(0, 37, Short.MAX_VALUE)))
                         .addContainerGap())
@@ -182,9 +188,9 @@ public class ViewPengeluaran extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnTambahMakan)
+                        .addComponent(btnMakan)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnTambahBarang)
+                        .addComponent(btnBarang)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnHapus)
                         .addGap(18, 18, 18)
@@ -202,9 +208,9 @@ public class ViewPengeluaran extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnBarang;
     private javax.swing.JButton btnHapus;
-    private javax.swing.JButton btnTambahBarang;
-    private javax.swing.JButton btnTambahMakan;
+    private javax.swing.JButton btnMakan;
     private javax.swing.JButton btnTambahPengeluaran;
     private javax.swing.JComboBox<String> cbHari;
     private javax.swing.JButton jButton1;

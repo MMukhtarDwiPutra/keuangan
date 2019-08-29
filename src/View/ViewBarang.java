@@ -8,6 +8,7 @@ package View;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -29,6 +30,16 @@ public class ViewBarang extends javax.swing.JFrame {
 
     public JTextField getTxtKeperluan() {
         return txtKeperluan;
+    }
+    
+    public int btnHapusYesOrNo(int idPengeluaranBarang){
+        int yon = JOptionPane.showConfirmDialog(null,"Apakah anda yakin ingin menghapus data pengeluaran barang dengan ID "+idPengeluaranBarang+" ?","Hapus Data Barang",JOptionPane.YES_NO_OPTION);
+        return yon;
+    }
+    
+    public int btnEditYesOrNo(int idPengeluaranBarang){
+        int yon = JOptionPane.showConfirmDialog(null,"Apakah data yang anda masukan sudah benar?","Edit Data Pengeluaran Barang (ID "+idPengeluaranBarang+")",JOptionPane.YES_NO_OPTION);
+        return yon;
     }
 
     /**

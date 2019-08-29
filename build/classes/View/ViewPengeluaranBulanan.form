@@ -45,7 +45,7 @@
                           </Group>
                       </Group>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="btnTambahPengeluaran" pref="161" max="32767" attributes="0"/>
+                          <Component id="btnTambahPengeluaran" max="32767" attributes="0"/>
                           <Component id="btnLihatPengeluaran" max="32767" attributes="0"/>
                           <Component id="btnHapus" alignment="0" max="32767" attributes="0"/>
                       </Group>
@@ -59,7 +59,7 @@
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="20" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -112,7 +112,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnTambahPengeluaran">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Tambah Pengeluaran"/>
+        <Property name="text" type="java.lang.String" value="Tambah Pengeluaran Bulanan"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">

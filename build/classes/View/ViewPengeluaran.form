@@ -51,8 +51,8 @@
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="btnTambahPengeluaran" max="32767" attributes="0"/>
-                                  <Component id="btnTambahMakan" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="btnTambahBarang" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="btnMakan" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="btnBarang" alignment="0" max="32767" attributes="0"/>
                                   <Component id="btnHapus" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="0" pref="37" max="32767" attributes="0"/>
@@ -98,9 +98,9 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="btnTambahMakan" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnMakan" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnTambahBarang" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnBarang" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="btnHapus" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -161,14 +161,14 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="btnTambahMakan">
+    <Component class="javax.swing.JButton" name="btnMakan">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Tambah Makan"/>
+        <Property name="text" type="java.lang.String" value="Makan"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="btnTambahBarang">
+    <Component class="javax.swing.JButton" name="btnBarang">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Tambah Barang"/>
+        <Property name="text" type="java.lang.String" value="Barang"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtBulanTahun">

@@ -23,8 +23,8 @@ public class ControllerHome implements ActionListener{
             new ControllerPengeluaranBulanan();
             view.setVisible(false);
         }else if(source.equals(view.getBtnRiwayat())){
-//            new ControllerPengeluaran();
-//            view.setVisible(false);
+            new ControllerRiwayat();
+            view.setVisible(false);
         }
     }
 }

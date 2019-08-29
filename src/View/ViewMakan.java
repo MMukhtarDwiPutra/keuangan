@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -26,6 +27,16 @@ public class ViewMakan extends javax.swing.JFrame {
         initComponents();
         txtHariTanggal.setText(hariTanggal+" "+bulanTahun);
         txtHariTanggal.setEditable(false);
+    }
+    
+    public int btnHapusYesOrNo(int idPengeluaranMakan){
+        int yon = JOptionPane.showConfirmDialog(null,"Apakah anda yakin ingin menghapus data pengeluaran makan dengan ID "+idPengeluaranMakan+" ?","Hapus Data Pengeluaran Makan",JOptionPane.YES_NO_OPTION);
+        return yon;
+    }
+    
+    public int btnEditYesOrNo(int idPengeluaranMakan){
+        int yon = JOptionPane.showConfirmDialog(null,"Apakah data yang anda masukan sudah benar?","Edit Data Pengeluaran Makan (ID "+idPengeluaranMakan+")",JOptionPane.YES_NO_OPTION);
+        return yon;
     }
 
     public JComboBox<String> getCbWaktuMakan() {
