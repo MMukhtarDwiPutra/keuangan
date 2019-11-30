@@ -1,5 +1,5 @@
 # keuangan
-Yang liat repository ini untuk referensi tubes PBO, di program ini masih ada yang kurang. Karena ini program kebanyakan ambil data dari database, jadinya kalau ada update atau delete cuman update di database (misal makan). Array untuk makan di model "database" itu belum ditambahin kodingan untuk delete atau update langsung ke modelnya.
+Yang liat repository ini untuk referensi tubes PBO, di program ini masih ada yang kurang. Karena ini program kebanyakan ambil data dari database, jadinya kalau ada update atau delete cuman update di database (misal makan) terus langsung loadMakan atau loadBarang lagi, jadi di program langsung ke-update. Harusnya, array untuk makan/barang di model "database" itu ditambahin kodingan untuk delete atau update langsung ke modelnya.
 
 Misalnya nih : 
 public void hapusMakan(int idPengeluaranMakan){
